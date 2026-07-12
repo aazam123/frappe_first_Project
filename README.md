@@ -6,3 +6,8 @@ https://aazammorvadiya.byethost18.com/
 https://t3-chat.onrender.com/
 https://am-chat-iota.vercel.app/
 
+**VS Code Extension**
+GitHub Copilot
+Codeium
+Tabnine
+Amazon Q
