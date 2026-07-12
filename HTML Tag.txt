@@ -1,0 +1,154 @@
+<h1> to <h6>
+<meta>  seo
+<p> --paragraph
+<img> image 
+<b> - bold
+<br>
+jyare paragraph ma space count na thai tyare <P>
+jyare paragraph ma space count karvi hoi tyare <pre>
+<sub>,<sup>,<U>,<big>, <small> <hr>
+<section> <article> 
+<aside> aa tag google add ni jagya use thai chhe ane aano content seo use nathi karto
+<img href="" target="" >
+--------------------------------------------------------
+Block Element Aakhi jagya roke
+List : Div Tags
+<address>, <fieldset>, <nav>, <article>, <figcaption>, <noscript>,<aside><figure>, <ol>, <blockquote>, <footer>, <p>,<canvas>, <form>, <pre>,<add>, <h1>-<h6>,<div>/, <header>, <dl>, <hr>, <dt>, <li>, <main>
+-----------------------------------------------------------------------------
+Jelti jarur hase tetli j jagya rokse
+List : Span Tags
+<dfn>,<output>,<a>,inl,<em>,<q>,<abbr>,<i>,<samp>,<acronym>,<img>,<script>,<b>,<input>,<select>,<bdo>,<kbd>,<small>,<big>,<label>,<span>,<br>,<map>,<strong>,<button>,<object>,<sub>,<cite>,<tt>,<sup>,<var>,<textarea>,<time>
+-----------------------------------------------------------------------------------------
+jyare List Taiya karvi hoi tyare
+orderList Tapka 
+<ul><li>Red</ul></li>
+<ul><li> <ul><li>Red Rose </ul></li> </ul></li>
+
+unorderlist
+<ol><li>Red</ul></oi>
+<ol><li> <ul><li>Red Rose </ul></li> </ol></li>
+
+-------------------------------------------------------------------
+table table banvu hoi tyare 
+jyare table ma column murge karvi tyare colspan="4"
+jyare table ma row murge karvi tyare rowspan="2"
+
+<table>
+<caption>Table Name</caption>
+<thead> <tr> <th><th> <tr> </thead>
+<tbody> <tr> <td><td> <tr> </tbody>
+</table>
+
+
+------------------------------------------------
+
+1. Document Structure & Root Elements
+These mandatory tags establish the layout framework and identify document metadata.
+
+<!DOCTYPE html>: Declares document type to the browser.<html>: Root element enclosing the entire document.
+<head>: Container holding page metadata, styles, and scripts.
+<body>: Houses all visible webpage content.
+<title>: Displays the webpage title in browser tabs.
+<meta>: Sets configuration details like character sets or keywords.
+<link>: Hooks external resource files, such as CSS stylesheets.
+<style>: Hosts internal CSS scripts natively.
+<script>: Integrates or executes dynamic client-side JavaScript.
+<noscript>: Handles rendering fallback when scripts are disabled.
+
+--------------------------------------------------------------------
+
+2. Layout & Semantic ElementsSemantic elements 
+give clear meaning to web sections for screen readers and SEO.
+<div>: Standard generic block-level element container.
+<span>: Generic inline-level text content wrapper.
+<header>: Formulates introductory layouts or upper navigation panels.
+<nav>: Identifies dedicated blocks of website navigation links.
+<main>: Encompasses the primary unique content of the page.
+<section>: Configures thematic groupings of standalone content.
+<article>: Builds self-contained, independently distributable copy.
+<aside>: Secondary blocks containing relevant, auxiliary data.
+<footer>: Packages bottom informational fields and copyright details.
+<details>: Constructs interactive disclosures that toggle visibility.
+<summary>: Houses headings visible inside parent details tags.
+<dialog>: Configures pop-up modals or native dialog boxes.
+
+-----------------------------------------------------------------------
+
+3. Text Formatting & StructureThese tags structure sentences and visually format typography layout blocks.
+<h1> to <h6>: Page structural headings rank from top to bottom.
+<p>: Isolates standardized paragraphs of text body copy.
+<br>: Executes basic structural single-line breaks.
+<hr>: Generates horizontal rules representing thematic page breaks.
+<strong>: Sets text weight to bold with high programmatic importance.
+<b>: bolds text elements purely for stylistic treatment.
+<em>: Adds localized font italicization with programmatic emphasis.
+<i>: Applies standard visual text italicization formatting.
+<small>: Scales font typography sizing down one level.
+<mark>: Highlights context text with yellow styling overlays.
+<del>: Targets removed content via strikethrough lines.
+<ins>: Represents text added via document underlines.
+<sub>: Aligns targeted texts inside subscript positions.
+<sup>: Positions targeted strings in superscript spots.
+<pre>: Renders text exactly with fixed-width spacing.
+<blockquote>: Segregates external reference quotations into independent blocks.
+<q>: Inserts inline programmatic quote styling marks.
+<code>: Displays stylized computing strings inside text.
+<abbr>: Designates tooltips clarifying word abbreviations.
+<address>: Frames contact information structure natively.
+
+------------------------------------------------------------
+
+4. Hyperlinks & ListsUsed for connecting pages and formatting sequential or descriptive data.
+<a>: Generates hyperlinks navigating outward using href paths.
+<ul>: Initiates multi-item bulleted unordered list containers.
+<ol>: Triggers multi-item numbered ordered list sequences.
+<li>: Wraps localized list entries inside parent frameworks.
+<dl>: Opens customized descriptions or dictionary list sets.
+<dt>: Specifies term vocabulary components in description blocks.
+<dd>: Handles detailed descriptions answering structural dt terms.
+
+-----------------------------------------------------------------------
+
+5. TablesUsed for organizing complex relational metrics across multi-row grids.
+<table>: Initializes the primary parent data grid frame.
+<caption>: Implements programmatic title headers onto grids.
+<thead>: Groups structural tracking components inside table headers.
+<tbody>: Concentrates standard row groups inside table bodies.
+<tfoot>: Gathers footer analytics paths below grid lines.
+<tr>: Generates horizontal table grid row lanes.
+<th>: Outlines specific grid header labels with bold formatting.
+<td>: Assigns unique grid data content table cells.
+<col>: Directs specific individual column style properties.
+<colgroup>: Directs systemic formatting rules across column groups.
+
+------------------------------------------------------------------
+
+6. Forms & User InputEnables web forms to collect data and securely submit inputs.
+<form>: Envelopes field fields to submit form responses.
+<input>: Creates interactive data collection entry widgets.
+<textarea>: Initiates expandible multi-line scrolling field boxes.
+<button>: Formulates clickable triggering command control items.
+<select>: Establishes scrolling drop-down form select paths.
+<optgroup>: Collects selected menu options into categorized blocks.
+<option>: Formulates independent entries nested inside select lists.
+<label>: Connects specific instructional titles to form fields.
+<fieldset>: Group-packs similar entry components into framed rings.
+<legend>: Titles structural fieldsets with clean label definitions.
+<datalist>: Feeds recommended options strings during active typing.
+<output>: Projects calculated result expressions from script data.
+
+----------------------------------------------------------------------
+
+7. Multimedia & GraphicsEmbeds static images, video files, or third-party web content.
+<img>: Injects standard digital picture graphics files.
+<audio>: Streams native music or audio files.<video>: Houses standard playback video streaming components.
+<source>: Links secondary data resources for video/audio tracks.
+<track>: Maps text track subtitles inside stream playbacks.
+<iframe>: Windows third-party cross-origin page sites internally.
+<embed>: Mounts foreign utility extensions or legacy media.
+<object>: Implements dynamic external script application instances.
+<svg>: Hosts geometric vector graphic illustrations natively.
+<canvas>: Script-renders programmatic runtime animations or maps.
+<picture>: Optimizes responsive display choices across device classes.
+
+---------------------------------------------------------------------------

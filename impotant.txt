@@ -1,0 +1,187 @@
+જ્યારે ઉબુન્ટુ 22.4 ઇન્સ્ટોલ કરી લીધા પછી 
+
+Vertual box na setting ma network ma briged network 
+Ane tema wireless network select karva nu
+----------------------------------------------
+$: Sudo apt update 
+Tema sudor ni error aave tyare
+--------------------------------------
+$: su
+$: sudo apt update
+$: usermod -aG sudo aazam             --- ubantu nu username aavse
+$: reboot 
+restrt virtual mashion
+----------------------------------------------------
+sudor vadi error nai aave
+-------------------------------------------------------------------------
+IP Addresss Mate
+-----------------------------------------------------------
+$: sudo nano /etc/NetworkManager/NetworkManager.conf
+
+File open thai ema faulse mathi true karvanu
+achi 
+
+$: Ipconfig
+$: Ipa
+$: Ip mali jase
+=========================================================================
+ip satic nu set karva nu
+ubuntu ma setting - network - wired ni baju nu seting - ipv4
+automatic ni jagya e manual
+address ma ip address
+network ma == 255.25.255.0
+Getway ma ip address------------------------ns seting manual karvanu
+---------------------------------------------------------------------------
+dns setting ma automatic ni jagya e manual
+8.8.8.8,8.8.4.4
+--------------------------------------------------------
+no samaj pade to https://youtu.be/BmtJ1U1z63k?si=pdssEwOyoKnfkpPn joi levo
+----------------------------------------------------------------------
+$: if confing ubuntu ip add ress 
+--------------------------------------------------
+ssh aazam@192.168.31.186 ---------------Samsung leptop
+-------------------------------------------------------
+ssh aazam@192.168.31.99   -------------HP Laptop Connection
+-------------------------------------------------------
+ssh vboxuser@10.48.84.44
+------------------------------
+ip a
+---------------
+$: sudo apt update
+$: sudo apt install openssh-server
+$: sudo systemctl enable ssh
+$: sudo systemctl start ssh
+-------------------------------------------
+jyare pan ubuntu ip address badly jai tyare disconnect ni error aavse tyare
+ip addr show
+ifconfig
+sudo systemctl restart NetworkManager
+------------------------------------------------------
+window ma nodejs install hovu joi to j Frappe install ma error nai aave
+-------------------------------
+https://discuss.frappe.io/t/guide-how-to-install-erpnext-v15-on-linux-ubuntu-step-by-step-instructions/111706
+------------------------------------------------------------------------------
+jyare succesfully frappe and project Create thai jai tyare
+--------------------------------------------------------------------------------
+juno projectdelete karva mate
+rm -r folder_name
+---------------------------
+new project craeate karvo hoi tyare
+----------------------------------------------------
+hal no database password aazam chhe
+----------------------------------------------
+$: bench new-site site.local   -- site.local project name chhe
+sql root password 1234 nakhvano
+Administrator password  1234 rakhvo and yad rye evo rakhvo
+$: bench get-app payments
+$: bench get-app -- branch version-15 erpnext
+$: bench --site site1-local install-app erpnext
+---------------------------------------------------------
+aatlu karya pachi project create thai gyo 
+-----------------------------------------------------------
+project run karva mate 
+--------------------------
+$: ls
+$: bench start
+jayre bench ni url not found hoi tyare
+-------------------------------------------------
+
+$: ls
+$: cd sites
+$: ls 
+$: cat common_site_config.json
+$: bench use projectname
+default project project name batave chhe 
+$: bench start
+------------------------------------------
+jyare project open karvo hoi tyare
+
+ubuntu ma
+sudo systemctl start ssh
+-------------
+vs code 
+ssh server chalu karva nu
+
+user badlavanu
+su frappe-aazam
+cd ~/frappe-bench/
+cd sites
+ls 
+cd first-project
+bench start
+----------------------------------------
+First Server Script
+https://docs.frappe.io/framework/user/en/desk/scripting/server-script ==doc file
+------------------------------------------------------------------------------
+site ne mantance mode chalu ke badh karva mate
+bench --site site3.local set-maintenance-mode off
+bench --site site3.local set-maintenance-mode on
+-----------------------------------------------------------
+bench clear-cache
+bench clear-website-cache
+bench restart
+-------------------------------------------------------
+jyare globlly server script enable karva mate badha site ma enable thai jase
+bench set-config server_script_enable true
+------------------------------------------------------------
+jyare server script banava ni hoi tyare
+frappe-bench ma bench --site site1.local set-config server_script_enabled true   project nu name badlavanu
+server script activate thai jase
+cat sites/site3.local/site_config.json
+batavi dese enable script thai gya pachi
+
+--------------------------------------------------------------------------
+search ma new doc type karvanu ane 
+tema ek new doc type banava nu ane modals ma app nu name nakhvanu erp
+ek form create karvanu 
+
+pachi secces full add thai chhe data joi levanu
+
+item price list banava nu ema item add karva nu ane 
+price ane item bey add karvanu  5 thi 6 add thai jai pachi 
+
+pachi ek new client script banavani
+---------------------------------------------------------
+Filter script sample 
+----------------------------
+frappe.ui.form.on('Item Price', {
+	onload: function(frmn){
+	    frm.set_query("item_code",() => {
+	        return{
+	            filters: {
+	                is_stock_item: 0
+	            }
+	        };
+	    });
+	}
+});
+
+
+
+---------------------------------------------------------------------------------------------
+server script mate 
+pehla
+bench set-config -g server_script_enabled 1
+aa command thi enable karva nu ane 1 ni jayaae true lakhi to pan chalse
+aa cmd globaly enable thase 
+
+ane ek project mate enable karvu hoi tyare aa use karva nu  site1.local project name chhe
+
+bench --site site1.local set-config server_script_enabled true
+
+-----------------------------------------------------------------------
+jyare theam install karvi hoi tyare aa bey caamand thi frappe pase badhu authoraise thai jase
+
+vs code ma jyare ubuntu nu user chalu hoi ane file drag and drop karvu hoi tyare error aaave tyare -- file and folder nu name balavanu
+
+sudo chown -R aazam:aazam /home/frappe-aazam/frappe-bench/apps/frontend_theme/ 
+
+badhi file drag and drop thai jai pachi niche no camamnd nakhvano
+
+sudo chown -R frappe-aazam:frappe-aazam /home/frappe-aazam/frappe-bench/apps/frontend_theme/
+---------------------------------------------------------
+file Mukai jai uparv ni process thai jai pachi authoraise Aazam user ne aapvi
+
+sudo chown -R aazam:aazam /home/frappe-aazam/frappe-bench/apps/frontend_theme/
+
+---------------------------------------------------------------------------------
