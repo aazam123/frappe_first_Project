@@ -1,10 +1,10 @@
 જ્યારે ઉબુન્ટુ 22.4 ઇન્સ્ટોલ કરી લીધા પછી 
-
-Vertual box na setting ma network ma briged network 
+riged network 
 Ane tema wireless network select karva nu
 ----------------------------------------------
 $: Sudo apt update 
 Tema sudor ni error aave tyare
+Vertual box na setting ma network ma b
 --------------------------------------
 $: su
 $: sudo apt update
@@ -192,3 +192,57 @@ context.integration_apps = ["Slack", "Google Sheets"] -- index.py ma mukvanu
         <div class="integration-tile reveal"><div class="integration-name">{{ app }}</div></div>
  {% endfor %}
 -----------------------------------------------------------------------------------------------
+jyare  html ni file ma form hoi tyare form no data databse insert karavo hoi tyare
+pela doctype banavanu tema check vada option tik na karva na ane modual ma apps install karyu hoi tenu name aavse
+---------------------------------------------
+index.py 
+@frappe.whitelist(allow_guest=True)  # allow_guest=True rakhvathi login vagar na users pan form fill kari shakse
+def save_custom_form(name, email, message):
+    try:
+        # Navo document/record create karva mate
+        new_doc = frappe.get_doc({
+            "doctype": "Customer Query",  # Step 1 ma banavelu DocType nu name exact lakhvu
+            "full_name": name,
+            "email": email,
+            "message": message
+        })
+        
+        # Database ma data insert (save) karva mate
+        new_doc.insert(ignore_permissions=True)
+        
+        return {"status": "success", "message": "Data successfully store thai gayo!"}
+        
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+---------------------------------------
+ahiya html no form no code aavse ane niche java =script aavse 
+<script>
+document.getElementById('my-custom-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Page reload thatu atkaavva mate
+
+    // Input fields mathi value melvo
+    var name = document.getElementById('user_name').value;
+    var email = document.getElementById('user_email').value;
+    var message = document.getElementById('user_message').value;
+
+    # Frappe API call
+    frappe.call({
+        method: "frontend_theme.frontend_theme(folder name aavse).page.your_page_name.your_page_name.save_custom_form", // <-- Ahiya tamara python function no sacho path lakhvo
+        args: {
+            "name": name,
+            "email": email,
+            "message": message
+        },
+        callback: function(r) {
+            if (r.message && r.message.status === "success") {
+                alert(r.message.message);
+                document.getElementById('my-custom-form').reset(); // Form khali karva mate
+            } else {
+                alert("Kaik bhul thai: " + r.message.message);
+            }
+        }
+    });
+});
+</script>
+----------------------------------------
+
