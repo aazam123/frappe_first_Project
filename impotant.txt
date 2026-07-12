@@ -185,3 +185,10 @@ file Mukai jai uparv ni process thai jai pachi authoraise Aazam user ne aapvi
 sudo chown -R aazam:aazam /home/frappe-aazam/frappe-bench/apps/frontend_theme/
 
 ---------------------------------------------------------------------------------
+jyare frappe ma python sathe connect karavu hoi tyare index.html ane index.py hovu joiae jetla pages eteli banne file banavva ni
+jyare frzppe ma loop thi content layavo hoi tyare
+context.integration_apps = ["Slack", "Google Sheets"] -- index.py ma mukvanu
+ {% for app in integration_apps %}
+        <div class="integration-tile reveal"><div class="integration-name">{{ app }}</div></div>
+ {% endfor %}
+-----------------------------------------------------------------------------------------------
