@@ -1,0 +1,85 @@
+pip install -r requirements.txt
+redy project mate
+-----------------------------------
+
+python
+pip
+pip install mysql
+pip install django
+-----------------------------------------------------------------------------------
+Python Envarment cammand 
+*py -m venv myworld           |         |enve     |Second time project open 
+*python -m venv (folder parth)\enve  |         |Script   | Cammand
+cd..(Back Javay)		    |	      |activate |
+cd Folder Name Thi (Enter Folder)   |	      |		|
+-----------------------------------------------------------------------------------
+Create Project
+django-admin startproject (Project Name)
+(ProjectOpen Karvamate) cd (folder Name)
+code . (Visual studio Open)
+------------------------------------------------------------------------
+python .\manage.py migrate		|App Create Cmd
+python .\manage.py startapp (appname)	|
+----------------------------------------------------------------------
+python .\manage.py runserver (project run Thase)
+-----------------------------------------------------------------------
+python ma adminpanel login karva mate username and Pass create karvo
+python .\manage.py createsuperuser| aa cammand pachi admin login
+---------------------------------------------------------------------
+Settings.py
+{
+Install app ma app nu name lakhi ragister karvanu
+example===  'Myapp',
+}
+Template no path set karvano
+Example= 'DIRS': [BASE_DIR/'Templates'],
+----------------------------------------------------------------
+View.py  ----  View Create Karvano
+                                        |
+    def index(request):			   |Alag file nu alag name  
+    return render(request,'index.html')    |
+
+-----------------------------------------------------------------------------------------------------
+								     |Jetla page etla view create
+-----------------------------------------------------------------------------------------------------
+urls.py [myapp  ma url file create ]    |  application alag urls.py  |[My Web Url]
+from django.contrib import admin        |file create karvani         |from django.contrib import admin
+from django.urls import path,include	|tema second line ma include |from django.urls import path
+					|and path create kari admin  |from Myapp import views
+urlpatterns = [			        |call karvanu                |
+                                        |                            |urlpatterns = [
+								     |  path('admin/',admin.site.urls),
+    path('admin/', admin.site.urls),	|                            |     path('',views.index),
+    path('',include('myapp.urls')),	|                            |     path('about/',views.about),
+] 					|                            | path('contact/',views.contact),
+------------------------------------------------------------------------------------------------------                               
+href="/about"		|webpage ma link mukva mate
+href="/contact" 	|
+home page mate only /	|
+--------------------------------------------------------------------------------------------------------
+/index === html file ma link mukva aagad slesh mukvo
+index\ ==== url ma aa link aavshe
+-------------------------------------------------------------------------------------------
+Model.py
+
+from django.db import models
+
+# Create your models here.
+
+class studinfo(models.Model):
+    name=models.CharField(max_length=20)
+    email=models.EmailField()
+    dob=models.DateField()
+    address=models.TextField()
+
+    def __str__(self) -> str:
+        return self.name
+--------------------------------------------------------------
+pip install mysqlclient
+python .\manage.py makemigrations
+------------------------------------------------------------
+---Token Generate---
+{% for st in stdata %} ===Start & over karvanu
+{% endfor %}
+------------------------------------------------
+{% csrf_token %}

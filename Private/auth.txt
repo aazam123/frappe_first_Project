@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+{% endblock %}  aa badhi html vadi file ma mukva nu template cutting
+--------------------------------------------------------------------
+{% load static %}
+header
+{% block content %}
+
+{% endblock %}
+footer
+--------------------------------------------------------------------------
+view and database create and migrate thi jai pachi modual.py ma modual create karvanu
+-------------------------------------------------------------------------------------------------------------------------------
+modual create karta hoi tyare
+varchar() hamesha charfild ma aaue
+-------------------------------------------------------------------------------------------------------------------------------
+DATABASES = {                                                Mysql ma database Oprate karvo tyre
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'amazon',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+{% load static %}
+--------------------------------------------------------------------------------------------------------------------------------
+Model.py
+
+from django.db import models
+# Create your models here.
+
+class studinfo(models.Model):
+ name=models.CharField(max_length=20)
+ email=models.EmailField()
+ dob=models.DateField()
+ address=models.TextField()
+ 
+ def __str__(self) -> str:
+    return self.name
+---------------------------------------------------------------------------------------------
+database ma table entry mate 
+python .\manage.py makemigrations
+python .\manage.py migrate
+----------------------------------------------------------------------------
+database na table ne admin mathi oprate karvu hoi to tema
+admin.py  ma table ragister karvu pade
+----------------------------------------------------------------------------------------------------------
+admin .py ==== studinfo table name chhe badha table admin.py ma ragister thase to j admin panel ma dekhase
+					jetla table etli entry
+from django.contrib import admin
+from .models import studinfo
+# Register your models here.
+
+class signupModel(admin.ModelAdmin):
+    ordering=['id']
+    list_display=['id','name','email','dob','address']
+
+admin.site.register(studinfo,signupModel)
+------------------------------------------------------------------------------------------------------------------------
+view.py 
+
+from django.shortcuts import render
+from .form import user_form
+# Create your views here.
+
+def index(request):
+    if request.method=='POST':
+        user=user_form(request.POST)
+        if user.is_valid():
+            user.save()
+            print("your acount crt")
+        else:
+            print(user.errors)
+    return render(request,'index.html')
+-----------------------------------------------------------------------------------------------------------
+index.html ma  method="post" &   {% csrf_token %}
+-----------------------------------------------------------------------------------------------------
+form.py
+from django import forms
+from .models import studinfo
+
+class user_form(forms.ModelForm):
+    class Meta:
+        model=studinfo
+        fields='__all__'
+-------------------------------------------------------------------------------------------------------------
+aatla change pachi insert data thai jase
+--------------------------------------------------------------------------------------------------------------
+{% for st in stdata %} === view data mate
+{% endfor %}
+---------------------------------------------------------------------------------------------------------------
+view .py ma
+def show(request): 
+    data={'stdata':user_form.objects.all}
+    return render(request,'show.html',data)
+--------------------------------------------------------------------------------------------------------------------
+view.py ma show data mate aatla change 
+from django.shortcuts import render, redirect
+from .models import studinfo
+from .form import user_form
+# Create your views here.
+
+def index(request):
+    if request.method=='POST':
+        user=user_form(request.POST)
+        if user.is_valid():
+            user.save()
+            print("your acount crt")
+        else:
+            print(user.errors)
+    else:
+        data=studinfo()
+    return render(request,'index.html')
+
+def show(request): 
+    data={'stdata':studinfo.objects.all}
+    return render(request,'show.html',{'data':data,'stdata':studinfo.objects.all})
+------------------------------------------------------------------------------------------------------------------------------------
+aatla change pachi data show thai jase
+------------------------------------------------------------------------------------------------------------------------------------
+Update data mate
+urls.py ma
+urlpatterns = [
+ path('admin/',admin.site.urls),
+ path('',views.index),
+ path('show/',views.show,name='show'),
+ path('delete/<int:id>/',views.delete),
+ path('update/<int:id>/',views.update),
+]
+------------------------------------------------------------------------------------------------------------------------------------
+update vadi html file ma
+<th><a href="/delete/{{st.id}}" >Delete</a></th>
+<th><a href="/update/{{st.id}}" >Update</a></th>
+jyare data show karvana hoi tyare
+token janerate karine | value="{{id.name}}">
+jyare date show karavi hoi value="{{id.dob|date:'Y-m-d'}}">
+-----------------------------------------------------------------------------------------------------------------------------------
+view.py ma add karvanu
+def update(request,id):
+    data=studinfo.objects.get(id=id)
+    if request.method=='POST':
+        stupdate=user_form(request.POST)
+        if stupdate.is_valid():
+            stupdate=user_form(request.POST,instance=data)
+            stupdate.save()
+            print("Record updated!")
+            return redirect("show")
+        else:
+            print(stupdate.errors)
+    return render(request,'update.html',{'id':studinfo.objects.get(id=id)})
+----------------------------------------------------------------------------------------------------------------------------------
+studinfo=database name ---  stdata - data select karva mate key use kari ti ----- data= object chhe
+----------------------------------------------------------------------------------------------------------------------------------
+delete data mate
+view.py ma add karvanu
+def delete(request,id):
+    data=studinfo.objects.get(id=id)
+    studinfo.delete(data)
+    return redirect('show')
+----------------------------------------------------------------------------------------------------------------------------------
+urls.py ma
+path('delete/<int:id>',views.delete),
+--------------------------------------------------------------------------------------------------------------------
+<th><a href="/delete/{{st.id}}/" >Delete</a></th>  ===== html file ma change
+-----------------------------------------------------------------------------------------------------------------------

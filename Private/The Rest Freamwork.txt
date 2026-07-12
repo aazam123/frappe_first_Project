@@ -1,0 +1,130 @@
+Rest Framework
+--------------------------------------------------------------------
+View .py ma
+-------------------------------------------------------------------
+from django.shortcuts import render
+from .serializers import userSerializers
+from .models import userinfo
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+# Create your views here.
+
+@api_view(['GET'])
+def getalldata(request):
+    if request.method=='GET':
+        stdata=userinfo.objects.all()
+        dtserial=userSerializers(stdata,many=True)
+        return Response(dtserial.data)
+
+@api_view(['GET'])
+def getstid(request,id):
+    try:
+        stid=userinfo.objects.get(id=id)
+    except userinfo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    dtserial=userSerializers(stid)
+    return Response(dtserial.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def savestdata(request):
+    if request.method=='POST':
+        stdata=userSerializers(data=request.data)
+        if stdata.is_valid():
+            stdata.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+def deletestid(request,id):
+    try:
+        stid=userinfo.objects.get(id=id)
+    except userinfo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    userinfo.delete(stid)
+    return Response(status=status.HTTP_202_ACCEPTED)
+
+
+@api_view(['PUT'])
+def updatedata(request,id):
+    try:
+        stid=userinfo.objects.get(id=id)
+    except userinfo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method=='PUT':
+        stserial=userSerializers(data=request.data,instance=stid)
+        if stserial.is_valid():
+            stserial.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+--------------------------------------------------------------------------------------------------------------------------------------------
+Model .py 
+
+from django.db import models
+from datetime import datetime
+# Create your models here.
+
+class userinfo(models.Model):
+    created=models.DateTimeField(default=datetime.now(),blank=True)
+    name=models.CharField(max_length=20)
+    email=models.EmailField()
+    mobile=models.BigIntegerField()
+    city=models.CharField(max_length=20)
+-----------------------------------------------------------------------------------------------------------------------------------
+serializers.py file create karvani ane 
+-------------------------------------------------------------
+from rest_framework import serializers
+from .models import userinfo
+
+class userSerializers(serializers.ModelSerializer):
+    class Meta:
+        model=userinfo
+        fields='__all__'
+------------------------------------------------------------------
+urls.py ma
+from django.contrib import admin
+from django.urls import path
+from myapp import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('getalldata/',views.getalldata),
+    path('getstid/<int:id>/',views.getstid),
+    path('savestdata/',views.savestdata),
+    path('deletestid/<int:id>/',views.deletestid),
+    path('updatedata/<int:id>/',views.updatedata),
+]
+------------------------------------------------------------------------------
+setting.py ma
+Install app ma 
+
+ 'myapp',
+ 'rest_framework',
+---------------------------------------------------------------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'apidb',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+------------------------------------------------------------------------
+admin.py
+from django.contrib import admin
+from .models import userinfo
+
+# Register your models here.
+admin.site.register(userinfo)
+--------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+pip install djangorestframework
+pip install markdown       # Markdown support for the browsable API.
+pip install django-filter  # Filtering support
+-------------------------------------------------------------------------
+https://www.django-rest-framework.org/#installation

@@ -1,0 +1,812 @@
+Session mukva mate print niche
+
+request.session['user']=unm
+request.session['userid']=uid.id
+----------------------------------------------------
+user = request.session.get('user')
+    uid = request.session.get('userid')
+    cuser = employersdetails.objects.get(id=uid)
+    return render(request, 'employers.html', {'user': user, 'cuser': employersdetails.objects.get(id=uid)})
+---------------------------------------------------------------
+view.py 
+from django.shortcuts import render,redirect
+from .form import usersignupForm
+from .models import usersignup
+from django.contrib.auth import logout
+
+# Create your views here.
+def adminlogins(request):
+    if request.method=='POST':
+        unm=request.POST['email']
+        pas=request.POST['password']
+
+        user=adminlogin.objects.filter(email=unm,password=pas)
+        aid=adminlogin.objects.get(email=unm)
+        print('Current User:',aid.id)
+        if user: #true
+            print("Login successfull!")
+            request.session['user']=unm
+            request.session['aid']=aid.id
+            return redirect('adminhome')
+        else:
+            print("Error!Email or Password does't match")
+    return render(request,'adminlogins.html')
+-------------------------------------------------------------------------------------------------------------------------------
+urls.py
+from django.contrib import admin
+from django.urls import path,include
+from signupapp import views
+
+urlpatterns = [
+   path('',views.index),
+   path('signup/',views.signup),
+   path('home/',views.home,name='home'),
+   path('userlogout/',views.userlogout),
+]
+-----------------------------------------------------------------------------------------------------------------------------
+form.py
+from django import forms
+from .models import usersignup
+
+
+class usersignupForm(forms.ModelForm):
+    class Meta:
+        model=usersignup
+        fields='__all__'
+---------------------------------------------------------------------------------------------------------------------------
+models.py
+from django.db import models
+from datetime import datetime
+
+# Create your models here.
+class usersignup(models.Model):
+    created=models.DateTimeField(default=datetime.now(),blank=True)
+    firstname=models.CharField(max_length=20)
+    lastname=models.CharField(max_length=20)
+    username=models.CharField(max_length=20)
+    password=models.CharField(max_length=20)
+    city=models.CharField(max_length=20)
+    state=models.CharField(max_length=20)
+    zipcode=models.CharField(max_length=6)
+    mobile=models.CharField(max_length=12)
+    photo=models.FileField(upload_to='Myfiles')
+
+----------------------------------------------------------------------------------------------------------------------------------
+view.py 
+
+def signup(request):
+    if request.method=='POST':
+        newuser=usersignupForm(request.POST)
+        if newuser.is_valid():
+            newuser.save()
+            print("User created!")
+            return redirect('home')
+        else:
+            print(newuser.errors)
+    return render(request,'signup.html')
+------------------------------------------------------------------------------------------------------------------------------------
+view.py 
+
+def home(request):
+    user=request.session.get('user')
+    return render(request,'home.html',{'user':user})
+---------------------------------------------------------------------------------------------------------------------------------------
+view.py 
+def userlogout(request):
+    logout(request)
+    return redirect('/')
+---------------------------------------------------------------------------------------------------------------------------------------------
+Upar no code jyare login file alag page hoi tyare upar vado code
+---------------------------------------------------------------------------------------------------------------------------------------------
+jyare login ane signup ek j page ma hoi tyare niche vado code
+---------------------------------------------------------------------------------------------------------------------------------------------
+view.py ma
+from django.shortcuts import render,redirect
+from .form import signupForm
+from .models import usersignup
+from django.contrib.auth import logout
+
+# Create your views here.
+
+def index(request):
+    if request.method=='POST': #root
+        if request.POST.get('signup')=='signup':
+            newuser=signupForm(request.POST)
+            if newuser.is_valid():
+                newuser.save()
+                print("User created successfully!")
+                return redirect('about')
+            else:
+                print(newuser.errors)
+        elif request.POST.get('login')=='login':
+            unm=request.POST['username']
+            pas=request.POST['password']
+
+            user=usersignup.objects.filter(username=unm,password=pas)
+            uid=usersignup.objects.get(username=unm)
+            print("UserID:",uid.id)
+            if user: #true
+                print("Login Successfull!")
+                request.session['user']=unm
+                request.session['userid']=uid.id
+                return redirect('about')
+            else:
+                print("Error! Username or Password does't match.")
+    return render(request,'index.html')
+
+def about(request):
+    user=request.session.get('user')
+    if request.method=='POST':
+        myabbout=signupForm(request.POST,request.FILES)
+        if myabbout.is_valid():
+            myabbout.save()
+            print("Your About has been uploaded!")
+        else:
+            print(myabbout.errors)
+    return render(request,'about.html',{'user':user})
+
+def userlogout(request):
+    logout(request)
+    return redirect('/')
+
+def updateprofile(request):
+    user=request.session.get('user')
+    uid=request.session.get('userid')
+    cuser=usersignup.objects.get(id=uid)
+    if request.method=='POST':
+        updateuser=signupForm(request.POST)
+        if updateuser.is_valid():
+            updateuser=signupForm(request.POST,instance=cuser)
+            updateuser.save()
+            print('Your profile has been updated!')
+            return redirect('about')
+        else:
+            print(updateuser.errors)
+    return render(request,'updateprofile.html',{'user':user,'cuser':usersignup.objects.get(id=uid)})
+------------------------------------------------------------------------------------------------------------------------------------------
+filels insert mate|||form ma|| enctype="multipart/form-data"
+-------------------------------------------------------------
+urls.py
+from django.contrib import admin
+from django.urls import path
+from fiverapp import views
+
+urlpatterns = [
+   path('admin/',admin.site.urls),
+   path('',views.index),
+   path('userlogout/',views.userlogout),
+   path('updateprofile/',views.updateprofile,name='updateprofile'),
+   path('about/',views.about,name='about'),
+]
+--------------------------------------------------------------------------------------------------------------------------------------
+html vadi file ma jyare login hoi tyare bija page ma login no option na aaue te mate code
+
+            <div class="right">
+                {% if user is none %}
+                <a class="button" onclick="document.getElementById('id01').style.display='block'"
+                    style="width:auto;">Login</a>
+                <a class="button" onclick="document.getElementById('id02').style.display='block'"
+                    style="width:auto;">Signup</a>
+                {% else %}
+                <div class="dropdown">
+                    <button class="dropbtn">{{user}}</button>
+                    <div class="dropdown-content">
+                      <a href="/updateprofile">Update Profile</a>
+                      <a href="/userlogout">Logout</a>
+                    </div>
+                  </div>
+                {% endif %}
+---------------------------------------------------------------------------------------------------------------------------------------
+jyare photo k file upload karvani hoi tyare usekarvo
+-----------------------------------------------------------------------------------
+method="post" enctype="multipart/form-data"
+----------------------------------------------------------------------------------
+jyare user ne insert query k unodhor messageaapvo hoi tyare
+view.py ma
+------------------------------------------
+from django.contrib import messages
+-----------------------------------------
+	if newuser.is_valid():
+                username=newuser.cleaned_data.get('username')
+                try:
+                    un=usersignup.objects.get(username=username)
+                    print("Username is already exists!")
+                    messages.error(request,"Username is already exists!")
+                except usersignup.DoesNotExist:
+                    newuser.save()
+                    print("User created successfully!")
+                    messages.success(request,"User created successfully!")
+                    return redirect('notes')
+-------------------------------------------------------------------------------------------------------------------------
+html file ma
+
+{% for msg in messages %}
+     <div class="alert alert-success alert-dismissible fade show" role="alert">
+         <strong>Success!</strong>{{msg}}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+     {% endfor %}
+-------------------------------------------------------------------------------------------------------------------------------
+jyare ek email biji var login no thai te mate
+----------------------------------------------
+ def index(request):
+    if request.method=='POST': #root
+        if request.POST.get('signup')=='signup':
+            username=""
+            newuser=signupForm(request.POST)
+            if newuser.is_valid():
+                username=newuser.cleaned_data.get('username')
+                try:
+                    un=usersignup.objects.get(username=username)
+                    print("Username is already exists!")
+                    messages.error(request,"Username is already exists!")
+                except usersignup.DoesNotExist:
+                    newuser.save()
+                    print("User created successfully!")
+                    messages.success(request,"User created successfully!")
+
+                    #Email Sending Code
+                    #send_mail(subject="Welcome!",message=f"Hello User!\nYour account has been created with us!\nEnjoy our services\n\nIf need any help, contact on\n+9197247 99469 | help@notesapp.com",from_email=settings.EMAIL_HOST_USER,recipient_list=["angelraninga0206@icloud.com","kashyapsorathiya14@gmail.com","alishpanara4412@gmail.com","aazammorvadiya890@gmail.com","anjukakran999@gmail.com","shyampabari02@gmail.com"])
+                    otp=random.randint(1111,9999)
+                    sub="Welcome!"
+                    msg=f"Hello User!\nYour account has been created with us!\nEnjoy our services\nYour Verification code is {otp}\nIf need any help, contact on\n+9197247 99469 | help@notesapp.com"
+                    from_ID=settings.EMAIL_HOST_USER
+                    to_ID=[request.POST['username']]
+                    send_mail(subject=sub,message=msg,from_email=from_ID,recipient_list=to_ID)
+                    return redirect('notes')
+            else:
+                print(newuser.errors)
+            
+
+________________________________________________________________________________________________________________________________
+Email Senting Mate Settting.py ma last ma 
+
+#Email Seading ---- App Password Ganerate Karvano
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "gondalfashion@gmail.com"
+EMAIL_HOST_PASSWORD = "xbtwblzthzvcxtsq"
+-----------------------------------------------------------------------------------------------------------------------------------
+View.py ma
+
+from django.core.mail import send_mail
+from fiver import settings
+import random
+import requests
+-------------------------------------------------------------------------------------------------------------------------------------
+view.py ma data insert Thai jai pachi aa code aaue
+
+	#Email Sending Code
+    	 #send_mail(subject="Welcome!",message=f"Hello User!\nYour account has been created with us!\nEnjoy our services\n\nIf need any help, contact on\n+917228021405| help@notesapp.com",from_email=settings.EMAIL_HOST_USER,recipient_list=["angelraninga0206@icloud.com","kashyapsorathiya14@gmail.com","alishpanara4412@gmail.com","aazammorvadiya890@gmail.com","anjukakran999@gmail.com","shyampabari02@gmail.com"])
+            otp=random.randint(1111,9999)
+            sub="Welcome!"
+            msg=f"Hello User!\nYour account has been created with us!\nEnjoy our services\nYour Verification code is {otp}\nIf need any help, contact on\n+917228021405 | help@notesapp.com"
+            from_Email=settings.EMAIL_HOST_USER
+            to_email=[request.POST['email']]
+            send_mail(subject=sub,message=msg,from_email=from_Email,recipient_list=to_email)
+----------------------------------------------------------------------------------------------------------------------------------------
+ View.py ma
+
+#OTP Sms
+            import requests
+            otp=random.randint(1111,9999)
+            url = "https://www.fast2sms.com/dev/bulkV2"
+
+            querystring = {"authorization":"m8c0sgI3JGYHDQECrLNKPjTqVZh9iltoef2bXBux1a65UkwyMREdklNuAhxb9UnsJofgTqL5RrB7Qv3p","variables_value":f"otp","language":"english","route":"q","numbers":"['mobile']"}
+
+            headers = {
+                'cache-control': "no-cache"
+            }
+
+            response = requests.request("GET", url, headers=headers, params=querystring)
+
+            print(response.text)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Quick Messsage Mokva mate Aa line chage karvi
+
+ querystring = {"authorization":"PSqGhvu5BkQv1WEvvWH6PIgV0vr1IcOIEzgsN1fZMHFG0WJapJ1hGGIwYfq8","message":"Hi Aazam, this message is to confirm that we received a deposit of 350000 in your account ending in 5909 on 10/01/2023. ","language":"english","route":"q","numbers":"7228021405,9737538995,9726860911"}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Social aunthentication gmail login any social login  || https://django-allauth.readthedocs.io/en/latest/installation.html | google ma search karvanu django allauth
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+pip install django-allauth
+-----------------------------------------------------------
+setting.py ma insttall app ma
+    'django.contrib.sites'
+--------------------------------------------------------------------------------
+Template ni niche | setting.py ma game tya aa code muko to pan chale fix nathi
+
+# Social loging mate
+AUTHENTICATION_BACKENDS = [
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+-------------------------------------------------------------------------------------------------------------------------------------------
+install app ma total 4 cammand add karvana
+ 'django.contrib.sites',
+ 'allauth',
+ 'allauth.account',
+ 'allauth.socialaccount',
+---------------------------------------------------------
+install app ni niche aa mukvanu
+SITE_ID = 1
+--------------------------------------------------------
+urls.py ma project main urls
+
+path('accounts/', include('allauth.urls')),
+------------------------------------------------------------------
+aatlu karya pachi migrate karvanu 7 table create thase database ma
+--------------------------------------------------------------------
+https://django-allauth.readthedocs.io/en/latest/installation.html
+aama provider ma javanu
+----------------------------------------------------------------------------------
+temani aapda requrement paramne googale & facebook linkdin choose karava nu
+---------------------------------------------------------------------------------
+google choose thai jai pachi second link ma javanu
+
+https://console.developers.google.com/
+--------------------------------------------------------------
+tya new project create karvano
+details nakhvani
+-----------------------------------------------------------------------------------
+clientid and secrete key ganrete thai jai pachi adminpanel ma bey ragister karvanu
+-------------------------------------------------------------------------------------
+Admin panel ni design change karva mate
+google ma django-jazzmin search karva nu|- 
+	|
+	|
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+}
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Admin",
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "NotesApp",
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "NotesApp",
+
+    # Logo to use for your site, must be present in static files, used for brand on top left
+    "site_logo": "/images/notes_logo.png",
+
+    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
+    "login_logo": None,
+
+    # Logo to use for login form in dark themes (defaults to login_logo)
+    "login_logo_dark": None,
+
+    # CSS classes that are applied to the logo above
+    "site_logo_classes": "img-circle",
+
+    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
+    "site_icon": None,
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to the NotesApp",
+
+    # Copyright on the footer
+    "copyright": "TOPS Tech - GJ(INDIA)",
+
+    # List of model admins to search from the search bar, search bar omitted if excluded
+    # If you want to use a single search field you dont need to use a list, you can use a simple string 
+    "search_model": ["auth.User", "auth.Group"],
+
+    # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
+    "user_avatar": None,
+
+    ############
+    # Top Menu #
+    ############
+
+    # Links to put along the top menu
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "books"},
+    ],
+
+    #############
+    # User Menu #
+    #############
+
+    # Additional links to include in the user menu on the top right ("app" url type is not allowed)
+    "usermenu_links": [
+        {"name": "Support", "url": "https://tops-int.com", "new_window": True},
+        {"model": "auth.user"}
+    ],
+
+    #############
+    # Side Menu #
+    #############
+
+    # Whether to display the side menu
+    "show_sidebar": True,
+
+    # Whether to aut expand the menu
+    "navigation_expanded": True,
+
+    # Hide these apps when generating side menu e.g (auth)
+    "hide_apps": [],
+
+    # Hide these models when generating side menu (e.g auth.user)
+    "hide_models": [],
+
+    # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
+    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+
+    # Custom links to append to app groups, keyed on app name
+    "custom_links": {
+        "books": [{
+            "name": "Make Messages", 
+            "url": "make_messages", 
+            "icon": "fa-solid fa-snowflake",
+            "permissions": ["books.view_book"]
+        }]
+    },
+
+    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
+    # for the full list of 5.13.0 free icon classes
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    # Icons that are used when one is not manually specified
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+
+    #################
+    # Related Modal #
+    #################
+    # Use modals instead of popups
+    "related_modal_active": False,
+
+    #############
+    # UI Tweaks #
+    #############
+    # Relative paths to custom CSS/JS scripts (must be present in static files)
+    "custom_css": None,
+    "custom_js": None,
+    # Whether to link font from fonts.googleapis.com (use custom_css to supply font otherwise)
+    "use_google_fonts_cdn": True,
+    # Whether to show the UI customizer on the sidebar
+    "show_ui_builder": False,
+
+    ###############
+    # Change view #
+    ###############
+    # Render out the change view as a single form, or in tabs, current options are
+    # - single
+    # - horizontal_tabs (default)
+    # - vertical_tabs
+    # - collapsible
+    # - carousel
+    "changeform_format": "horizontal_tabs",
+    # override change forms on a per modeladmin basis
+    "changeform_format_overrides": {"auth.user": "carousel", "auth.group": "carousel"},
+    # Add a language dropdown into the admin
+    "language_chooser": False,
+}
+----------------------------------------------------------------------------------------------------------
+POPUP form Design Karva
+
+       /* Login Form */
+.popup-btn{
+	position: absolute!important;
+    margin: 0  12px;
+}
+.popup-btns{
+	position: absolute!important;
+    margin: 0  12px;
+}
+.main-btn-rect,
+.main-btn-circle{
+	position: relative;
+	margin: 0px;
+	font-family: 'Roboto', sans-serif;
+	color: #FFFFF0;
+	background-color: rgb(252, 79, 79);
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 1px;	
+	outline: none;
+	cursor: pointer;
+	z-index: 3;
+}
+.main-btn-rect:before, 
+.main-btn-rect:after{
+  position: absolute;
+  content: '';
+  top:0;
+  width: 0%;
+  height: 100%;
+  background-color: rgba(255, 255, 240, 0.2);
+  -webkit-transition: width 0.3s;
+  -o-transition: width 0.3s;
+  transition: width 0.3s;
+}
+.main-btn-rect:before {
+  left: 0;
+}
+.main-btn-rect:after {
+  right: 0;
+}
+.main-btn-rect:hover:before, 
+.main-btn-rect:hover:after{
+  width: 50%;
+}
+.main-btn-circle{
+	height: 10px;
+	width: 40px;
+	-webkit-border-radius: 50%;
+	border-radius: 100%;
+	line-height: 40px;
+  -webkit-transition: box-shadow 0.3s;
+  -o-transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s;
+}
+.main-btn-circle:hover{   
+  -webkit-box-shadow: inset 2px 1px 0px 20px rgba(255, 255, 240, 0.2);
+  -moz-box-shadow: inset 2px 1px 0px 20px rgba(255, 255, 240, 0.2);
+  box-shadow: inset 2px 1px 0px 20px rgba(255, 255, 240, 0.2);
+}
+.popup{
+  position: fixed;
+	top: 100%;
+  width: 100%;
+  height: 100%;
+  z-index: 10001;
+}
+.popup.active{
+  top:0;
+  background-color: rgba(3, 3, 3, 0.98); 
+  transition: background-color .6s ,opacity .6s;
+}
+.popup .main-btn-rect{
+  padding: 10px 3px;
+}
+.popup .popup-content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-height: 568px;
+  min-width: 320px;
+  margin-top: 150px;
+  padding: 25px;
+  background-color: #FFFFF0;
+  color: #070000;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+  transition: margin .6s;
+  -webkit-transition: margin .6s;
+  -moz-transition: margin .6s;
+  -o-transition: margin .6s;
+}
+.popup.active .popup-content{
+  margin-top: 0px;
+}
+.popup-content h6{
+  display: table;
+  font-size: 16px;
+  text-align: center;
+  margin: 10px auto;
+  font-family: 'Roboto',sans-serif;
+  text-transform: uppercase;
+  font-weight: 100;  
+}
+.form-group{
+	position: relative;
+	width: 90%;
+	margin: 0px auto;
+}
+form#send input, form#send textarea{
+	position: relative;
+	margin-bottom: 32px;
+	width: 100%;
+	height: 29px;
+	font-family: 'RobotoLight', sans-serif;
+	text-indent: 20px;
+  background-color: transparent;
+	outline: 0;
+	border: none;
+	border-bottom: 1px solid #070000;
+	-webkit-transition: border 0.6s;
+	-o-transition: border 0.6s;
+	transition: border 0.6s;
+}
+form#send input:focus,
+form#send textarea:focus{
+	border-bottom: 1px solid rgb(63, 173, 168); 
+}
+form#send label{
+	position: absolute;
+	top: 0;
+	line-height: 28px;
+	-webkit-transition: color .5s;
+	-o-transition: color .5s;
+	transition: color .5s;
+}
+form#send input:focus + label,
+form#send textarea:focus + label{
+  color: rgb(63, 173, 168);
+}
+form#send .txt{
+	line-height: 22px;
+	left: 2px;
+}
+form#send .main-btn-rect {
+	position: relative;
+	display: block;
+	padding: 12px 80px;
+	margin: 0px auto;
+	font-size: 14px;
+}
+form#send .main-btn-rect i {
+	margin-right: 5px;
+}
+.popup .fade-out{
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  text-align: center;
+  font-size: 15px;
+}
+-------------------------------------------------------------------------------------------------------------
+  <li class="nav-item">
+                    <button type="button" style="margin-right:45px;"  class="main-btn-rect popup-btn" data-popup="popup-reg">Login</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button"  style="margin-left:65px;"class="main-btn-rect popup-btn" data-popup="popup-reg1">Signup</button>
+                </li>
+----------------------------------------------------------------------------------------------------------------------------------------------
+<!-- Login form -->
+<div id="popup-reg" class="popup">
+  <div class="popup-content">
+    <div class="event-header">
+      <h6>Don't be shy, say hi!</h6>
+    </div>
+      <form id="send" class="send-form">
+        <div class="form-group">
+          <input type="text" placeholder="Enter name..." id="name" name="name" required="required">
+          <label for="name">
+            <i class="fa fa-user"></i>
+          </label>
+        </div>
+        <div class="form-group">
+          <input type="tel" placeholder="Enter phone..." id="phone" name="phone" required="required">
+          <label for="phone">
+            <i class="fa fa-phone"></i>
+          </label>
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="Enter mail..." id="mail" name="mail" required="required">
+          <label for="mail">
+            <i class="fa fa-envelope"></i>
+          </label>
+        </div>
+        <div class="form-group">
+          <textarea placeholder="Enter message..." name="text" id="text"></textarea>
+          <label for="text" class="txt">
+            <i class="fa fa-commenting"></i>
+          </label>
+        </div>
+        <button type="submit" class="main-btn-rect" name="text" value="Send">
+          <i class="fa fa-paper-plane"></i>Send</button>
+      </form>
+    <span class="fade-out main-btn-circle">╳</span>
+  </div>
+</div>
+    <!-- Login Ended -->
+
+<!-- Signup form -->
+<div id="popup-reg1" class="popup">
+    <div class="popup-content">
+      <div class="event-header">
+        <h6>Signup Form</h6>
+      </div>
+        <form id="send" class="send-form">
+          <div class="form-group">
+            <input type="text" placeholder="Enter name..." id="name" name="name" required="required">
+            <label for="name">
+              <i class="fa fa-user"></i>
+            </label>
+          </div>
+          <div class="form-group">
+            <input type="tel" placeholder="Enter phone..." id="phone" name="phone" required="required">
+            <label for="phone">
+              <i class="fa fa-phone"></i>
+            </label>
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Enter mail..." id="mail" name="mail" required="required">
+            <label for="mail">
+              <i class="fa fa-envelope"></i>
+            </label>
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Enter message..." name="text" id="text"></textarea>
+            <label for="text" class="txt">
+              <i class="fa fa-commenting"></i>
+            </label>
+          </div>
+          <button type="submit" class="main-btn-rect" name="text" value="Send">
+            <i class="fa fa-paper-plane"></i>Signup</button>
+        </form>
+      <span class="fade-out main-btn-circle">╳</span>
+    </div>
+  </div>
+      <!-- Signup Ended -->
+    <!-- End Of Second Navigation -->
+------------------------------------------------------------------------------------------------------------------------------------
+ return render(request, 'adminprofile.html', {'user': user, 'cuser': adminlogin.objects.get(id=aid)})
+------------------------------------------------------------------------------------------------------------------------------
+return render(request, 'adminaddjobs.html', {'user': data})
+---------------------------------------------------------------------------------------------------------------
+jyare error page muki tyare amuk photo load nai thai
+
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+-----------------------------------------------------------------
+import os
+--------------------------------------------------
+python manage.py collectstatic
+------------------------------------------------
+automatic folder bani jase
+----------------------------------------------------------------------------------------------------
+search button code 
+view.py
+----------------------------------------------------
+from django.db.models import Q
+----------------------------------------------------
+
+def index(request):
+    search_post = request.GET.get('search')
+    #stdata=studinfo.objects.all()
+    if search_post:
+        stdata = studinfo.objects.filter(Q(name__icontains=search_post) & Q(sub__icontains=search_post))
+        print(stdata)
+        print("Search found......")
+    else:
+        # If not searched, return default posts
+        stdata = studinfo.objects.all().order_by("-date_created")
+        print("Error!")
+    return render(request,'index.html',{'stdata':stdata})
+
+=------------------------------------------------------------------------------------------------------------
+html vadi file ma
+
+
+{% for post in stdata %}
+        <h1>{{forloop.counter}}. {{post.name}}</h1>
+        <p>{{post.sub}}</p>
+        <p>Date Created: {{post.date_created}}</p>
+        <p>Last Update: {{post.date_updated}}</p>
+        {% endfor %}
+-----------------------------------------------------------------------------------------------------------------
+	pip freeze > requirement.text
+AA cammand thi requirement auto bani jase
+--------------------------------------------------------------
+GitHub Cammand
