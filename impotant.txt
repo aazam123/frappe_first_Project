@@ -254,4 +254,10 @@ git config --global user.name "aazam123"
 git commit -m "First commit"
 git remote add origin https://github.com/aazam123/Hybrowlabs_Prctice.git
 git push -u origin main
+------------------------------------------------
+New File Add karvi hoi tyare 
+
+git add .
+git commit -m "Added new file"
+git push
 
