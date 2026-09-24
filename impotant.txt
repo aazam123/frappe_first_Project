@@ -245,4 +245,13 @@ document.getElementById('my-custom-form').addEventListener('submit', function(e)
 });
 </script>
 ----------------------------------------
+GitHub Command Repo
+
+git init
+git add .
+git config --global user.email "aazammorvadiya890gmail.com"
+git config --global user.name "aazam123"
+git commit -m "First commit"
+git remote add origin https://github.com/aazam123/Hybrowlabs_Prctice.git
+git push -u origin main
 
