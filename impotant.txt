@@ -261,3 +261,6 @@ git add .
 git commit -m "Added new file"
 git push
 
+-------------------------------------------------------
+jyare doctype nu id set karvu hoi tyare {category_name}-.##
+category_name :- Feild nu name chhe have mare Expression  Select Karvau 
