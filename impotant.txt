@@ -264,3 +264,56 @@ git push
 -------------------------------------------------------
 jyare doctype nu id set karvu hoi tyare {category_name}-.##
 category_name :- Feild nu name chhe have mare Expression  Select Karvau 
+
+--------------------------------------------------------------------------
+1. Complete Frappe Project Flow
+
+Frappe Bench Setup
+Development environment
+
+Create App + Site + Install App
+
+Create Module + DocTypes + Fields
+Database structure and relationships
+
+Child Tables + Link Fields
+
+Python + JavaScript + Hooks
+Backend and frontend business logic
+
+Workflow + Permissions + Reports
+
+
+Print Format + Workspace Dashboard
+
+
+Testing + GitHub + Deployment
+
+---------------------------------------------------------------------------
+Frappe Project Development Flow (Step by Step)
+
+1. Requirement Analysis – Project requirements samajhna.
+2. Project Planning – Modules aur features plan karna.
+3. Frappe Bench Setup – Development environment setup karna.
+4. Site Creation – New Frappe site banana.
+5. App Creation – Custom Frappe app banana.
+6. App Installation – App ko site par install karna.
+7. Module Creation – Project ke modules banana.
+8. DocType Creation – Database structure banana.
+9. Field Creation – DocType mein required fields add karna.
+10. Child Table Creation – Parent-child relationships banana.
+11. Link Fields & Relationships – DocTypes ko connect karna.
+12. Python Backend Logic – Validation aur business logic likhna.
+13. JavaScript Frontend Logic – Form events aur UI customization.
+14. Hooks & Events – Document events aur automation configure karna.
+15. Scheduler Jobs – Automatic scheduled tasks banana.
+16. Roles & Permissions – User access control configure karna.
+17. Workflow Creation – Approval/rejection process banana.
+18. API Integration – Required APIs create/integrate karna.
+19. Report Creation – Query Report, Script Report, Report Builder.
+20. Print Format Creation – Custom printable formats banana.
+21. Workspace & Dashboard – Shortcuts, number cards aur charts.
+22. Testing & Debugging – Errors solve karna aur functionality test karna.
+23. Git & GitHub – Code commit, push aur version control.
+24. Deployment – Project production server par deploy karna.
+25. Maintenance & Updates – Bug fixes, enhancements aur updates.
