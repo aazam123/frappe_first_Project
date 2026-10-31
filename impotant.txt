@@ -266,6 +266,9 @@ jyare doctype nu id set karvu hoi tyare {category_name}-.##
 category_name :- Feild nu name chhe have mare Expression  Select Karvau 
 
 --------------------------------------------------------------------------
+Frappe Project All type Discription
+--------------------------------------------------------------------------
+
 1. Complete Frappe Project Flow
 
 Frappe Bench Setup
